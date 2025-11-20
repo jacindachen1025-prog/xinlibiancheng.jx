@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音乐选歌界面</title>
+  <!-- 引入Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome图标 -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 自定义配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366F1', // 主色调：靛蓝色
+            secondary: '#EC4899', // 辅助色：粉色
+            dark: '#121212',
+            'dark-card': '#1E1E1E',
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      }
+      .gradient-overlay {
+        background: linear-gradient(to bottom, rgba(18,18,18,0) 0%, rgba(18,18,18,0.8) 100%);
+      }
+      .song-hover {
+        @apply transition-all duration-300 hover:bg-primary/10 hover:scale-[1.01] cursor-pointer;
+      }
+      .player-shadow {
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+      }
+    }
+  </style>
+</head>
+<body class="bg-dark text-gray-100 font-inter min-h-screen flex flex-col">
+  <!-- 顶部导航 -->
+  <header class="bg-dark-card/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <i class="fa fa-music text-primary text-2xl"></i>
+        <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">MusicSelect</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-gray-400 hover:text-white transition-colors">
+          <i class="fa fa-search text-lg"></i>
+        </button>
+        <button class="text-gray-400 hover:text-white transition-colors">
+          <i class="fa fa-user-circle text-lg"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="flex-grow container mx-auto px-4 py-8">
+    <!-- 页面标题 -->
+    <div class="mb-8 text-center">
+      <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-2">精选歌曲</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto">点击歌曲卡片进入详情页，聆听完整音乐</p>
+    </div>
+
+    <!-- 歌曲列表 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+      <!-- 歌曲1 - 点击跳转至子页面 song1.html -->
+      <a href="pages/P1/music.html" class="block song-hover bg-dark-card rounded-xl overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-32 h-32 relative">
+          <img src="https://picsum.photos/id/1019/300/300" alt="歌曲封面：快乐崇拜" class="w-full h-full object-cover">
+          <div class="absolute inset-0 gradient-overlay flex items-end p-3">
+            <span class="bg-primary/80 text-white text-xs px-2 py-1 rounded-full">快乐</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40">
+            <i class="fa fa-play-circle text-4xl text-white"></i>
+          </div>
+        </div>
+        <div class="flex-grow p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">快乐崇拜</h3>
+            <p class="text-gray-400 text-sm mb-3">音乐人：潘玮柏、张韶涵</p>
+            <div class="flex items-center text-sm text-gray-500 mb-2">
+              <span class="flex items-center mr-4"><i class="fa fa-clock-o mr-1"></i> 3:30</span>
+              <span class="flex items-center"><i class="fa fa-heart-o mr-1"></i> 161w </span>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <span class="text-primary text-sm flex items-center">
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 歌曲2 - 点击跳转至子页面 song2.html -->
+      <a href="pages/P2/music.html" class="block song-hover bg-dark-card rounded-xl overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-32 h-32 relative">
+          <img src="https://picsum.photos/id/1062/300/300" alt="歌曲封面：坏心情" class="w-full h-full object-cover">
+          <div class="absolute inset-0 gradient-overlay flex items-end p-3">
+            <span class="bg-secondary/80 text-white text-xs px-2 py-1 rounded-full">烦闷</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40">
+            <i class="fa fa-play-circle text-4xl text-white"></i>
+          </div>
+        </div>
+        <div class="flex-grow p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">坏心情</h3>
+            <p class="text-gray-400 text-sm mb-3">音乐人：Lambert</p>
+            <div class="flex items-center text-sm text-gray-500 mb-2">
+              <span class="flex items-center mr-4"><i class="fa fa-clock-o mr-1"></i> 3:36</span>
+              <span class="flex items-center"><i class="fa fa-heart-o mr-1"></i> 13w</span>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <span class="text-primary text-sm flex items-center">
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 歌曲3 - 点击跳转至子页面 song3.html -->
+      <a href="pages/P3/music.html" class="block song-hover bg-dark-card rounded-xl overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-32 h-32 relative">
+          <img src="https://picsum.photos/id/1049/300/300" alt="歌曲封面：enfp统治银河系" class="w-full h-full object-cover">
+          <div class="absolute inset-0 gradient-overlay flex items-end p-3">
+            <span class="bg-green-500/80 text-white text-xs px-2 py-1 rounded-full">阳光</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40">
+            <i class="fa fa-play-circle text-4xl text-white"></i>
+          </div>
+        </div>
+        <div class="flex-grow p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">enfp统治银河系</h3>
+            <p class="text-gray-400 text-sm mb-3">音乐人：饼饼BingBing/谢琴刚</p>
+            <div class="flex items-center text-sm text-gray-500 mb-2">
+              <span class="flex items-center mr-4"><i class="fa fa-clock-o mr-1"></i> 2:41</span>
+              <span class="flex items-center"><i class="fa fa-heart-o mr-1"></i> 9k</span>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <span class="text-primary text-sm flex items-center">
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 歌曲4 - 点击跳转至子页面 song4.html -->
+      <a href="pages/P4/music.html" class="block song-hover bg-dark-card rounded-xl overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-32 h-32 relative">
+          <img src="https://picsum.photos/id/1039/300/300" alt="歌曲封面：晴" class="w-full h-full object-cover">
+          <div class="absolute inset-0 gradient-overlay flex items-end p-3">
+            <span class="bg-blue-500/80 text-white text-xs px-2 py-1 rounded-full">伤感</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40">
+            <i class="fa fa-play-circle text-4xl text-white"></i>
+          </div>
+        </div>
+        <div class="flex-grow p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">晴</h3>
+            <p class="text-gray-400 text-sm mb-3">音乐人：汪苏泷</p>
+            <div class="flex items-center text-sm text-gray-500 mb-2">
+              <span class="flex items-center mr-4"><i class="fa fa-clock-o mr-1"></i> 4:10</span>
+              <span class="flex items-center"><i class="fa fa-heart-o mr-1"></i> 404w</span>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <span class="text-primary text-sm flex items-center">
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <!-- 歌曲5 - 点击跳转至子页面 song5.html -->
+      <a href="pages/P5/music.html" class="block song-hover bg-dark-card rounded-xl overflow-hidden flex flex-col sm:flex-row">
+        <div class="w-full sm:w-32 h-32 relative">
+          <img src="https://picsum.photos/id/1082/300/300" alt="歌曲封面：海街寺庙" class="w-full h-full object-cover">
+          <div class="absolute inset-0 gradient-overlay flex items-end p-3">
+            <span class="bg-purple-500/80 text-white text-xs px-2 py-1 rounded-full">亲情</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40">
+            <i class="fa fa-play-circle text-4xl text-white"></i>
+          </div>
+        </div>
+        <div class="flex-grow p-4 flex flex-col justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">海街寺庙</h3>
+            <p class="text-gray-400 text-sm mb-3">音乐人：吴垚滔（七月的星期七）</p>
+            <div class="flex items-center text-sm text-gray-500 mb-2">
+              <span class="flex items-center mr-4"><i class="fa fa-clock-o mr-1"></i> 3:26</span>
+              <span class="flex items-center"><i class="fa fa-heart-o mr-1"></i> 84w</span>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <span class="text-primary text-sm flex items-center">
+              查看详情 <i class="fa fa-arrow-right ml-1"></i>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark-card border-t border-gray-800 py-6">
+    <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+      <p>© 2025 MusicSelect 音乐选歌平台 | 所有音乐版权归原作者所有</p>
+      <div class="flex justify-center gap-4 mt-3">
+        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-weibo"></i></a>
+        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-wechat"></i></a>
+        <a href="#" class="hover:text-primary transition-colors"><i class="fa fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript - 可选：添加页面切换动画或其他交互 -->
+  <script>
+    // 页面跳转时添加过渡效果（可选）
+    document.querySelectorAll('a[href^="pages/"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        
+        // 添加页面淡出效果（可选）
+        document.body.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+        
+        // 延迟跳转，等待动画完成
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 300);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="音乐播放器">
+    <title>音乐播放器</title>
+</head>
+<body>
+    <!--播放器-->
+    <audio id="myAudio">
+        <source src="晴.mp3" type="audio/mpeg">
+    </audio>    
+    <!--歌词-->
+    <div class="container">
+        <ul class="lrc-box"></ul>
+    </div>
+    <!--歌词end-->
+
+    <div class="player">
+
+        <!--播放器-->
+        <div class="info" id="info">
+            <div class="song">晴<span class="name">汪苏泷
+            </span></div>
+
+            <div class="progress-bar">
+                <input type="range" min="0" max="100" value="0" class="slider" id="myRange">
+                <div class="progress" id="progress"></div>
+            </div>
+
+        </div>
+        <!--播放器end-->
+
+        <!-- 控件 -->
+        <div class="control" id="control">
+            <div class="alarm"></div>
+            <div class="buts">
+                <div class="prev"></div>
+                <div id="play" class="play"></div>
+                <div class="next"></div>
+             </div>
+        </div>
+        <!-- 控件 end-->
+
+    </div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #myAudio {
+            display: none;
+        }
+        
+        .player {
+            position: relative;
+        }
+
+        .control {
+            width: 300px;
+            height: 80px;
+            background: #fff;
+            border-radius: 15px;
+            position: relative;    
+            box-shadow: 0 20px 20px 5px rgba(132, 132, 132, 0.2);
+        }
+
+        .alarm {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #000;
+            transform: scale(1);
+            transition: all 0.5s ease;
+        }
+
+        .alarm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            bottom: 0;
+            border-radius: 50%;
+            background: url(bg.png) no-repeat center center;
+            background-size: 100%;
+        }
+
+        /* 音响 */
+        .control.active.alarm::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: inherit; /* 继承父元素的背景图 */
+            /* 关键修复：正确的CSS动画语法 */
+            animation: rotateF 3s infinite linear;
+        }
+
+        @keyframes rotateF {
+            0% {transform: rotate(0deg);}
+
+            100% {transform: rotate(360deg);}
+        }
+
+        .buts{
+            display: flex;
+            justify-content: flex-end;
+            height: 80px;
+            padding: 0 15px;
+        }
+
+        .prev,
+        .play,
+        .next {
+             width: 55px;
+             height: auto;
+             border-radius: 10px;
+             background: #000;
+             cursor: pointer;
+        }
+
+        .prev:hover,
+        .play:hover,
+        .next:hover {
+            background-color: #eee;
+        }
+
+        .prev {
+            background: url(prev.png) no-repeat center center;
+            background-size: 20px;
+        }
+
+        .play {
+            background: url(play.png) no-repeat center center;
+            background-size: 20px;
+        }
+
+        .next {
+            background: url(next.png) no-repeat center center;
+            background-size: 20px;
+        }
+
+        /* 播放时 */
+        .control.active .play {
+            background: url(image.png) no-repeat center center;
+            background-size: 20px;
+        }
+
+        /* 隐藏 */
+        .info {
+            position: absolute;
+            height: 60px;
+            top: -60px;
+            left: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 5px 15px 5px 110px;
+            border-radius: 15px;
+        }
+
+        /* 歌名 */
+        .song {
+            color: #222;
+            font-size: 16px;
+            margin-bottom: 14px;
+            line-height: 16px;
+        }
+
+        /* 歌手 */
+        .name {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* 播放进度 */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            position: relative;
+            background-color: #d3d3d3;
+            border-radius: 6px;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 6px;
+            background: transparent;
+            outline: none;
+            z-index: 2;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            background: #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .progress {
+            height: 6px;
+            width: 0%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: rgba(255, 0, 0, 0.766);
+            border-radius: 6px;
+        }
+
+        /* 歌词 */
+        .container {
+            width: 100%;
+            height: 398px;
+            overflow-y: auto; /* 改为垂直滚动 */
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .lrc-box {
+            width: 100%;
+            list-style: none;
+            text-align: center;
+        }
+
+        .lrc-box li {
+            min-height: 30px;
+            line-height: 1.8;
+            font-size: 13px;
+            color: #777;
+            padding: 5px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+        }
+
+        .lrc-box li:last-child {
+            border-bottom: none;
+        }
+    </style>
+    <!-- 引入歌词 -->
+    <script src="song.js"></script>
+    <script>
+        //播放按钮
+        let playBut = document.getElementById("play");
+        //播放器
+        let myAudio = document.getElementById("myAudio");
+        //控件
+        let controlDom = document.getElementById('control');
+
+        playBut.addEventListener("click", playF);
+        //点击事件
+        function playF() {
+            //判断当前是否在播放
+            let flag = Array.from(controlDom.classList).some(function (item) {
+                return item == "active";
+            });
+            if (flag) {
+                //播放中点击暂停
+                controlDom.classList.remove('active');
+                myAudio.pause();
+            } else {
+                controlDom.classList.add('active');
+                myAudio.play();
+            }
+        }
+
+        //获取时间和歌词
+        function getLrcObj(str) {
+            const arr = str.split(']');
+            return {
+                time: formateTime(arr[0].substring(1)),
+                word: arr[1],
+                };
+        }
+        // 把时间转化成秒
+        function formateTime(str) {
+            const arr = str.split(':');
+            return +arr[0] * 60 + +arr[1];
+        }
+
+        function getLrc(str) {
+            const strArr = str.split('\n');
+            let arr = [];
+            for (let i = 0; i < strArr.length; i++) {
+                let obj = getLrcObj(strArr[i]);
+                arr.push(obj);
+            }
+            return arr;
+        }
+
+        //显示静态歌词
+        let lrcArr = [];
+        function showLrc() {
+            const fragment = document.createDocumentFragment();
+            lrcArr = getLrc(lrc);
+            for (let i = 0; i < lrcArr.length; i++) {
+                let li = document.createElement('li');
+                // 只显示歌词文字，不显示时间戳
+                li.textContent = lrcArr[i].word;
+                fragment.appendChild(li);
+            }
+            document.querySelector('.lrc-box').appendChild(fragment);
+        }
+
+        showLrc();
+
+        // 设置进度条
+        const slider = document.getElementById('myRange');
+        const progress = document.getElementById('progress');
+        
+        //进度条拖动
+        slider.oninput = function () {
+            progress.style.width = `${this.value}%`;
+            // 获取音乐总时长，单位是秒
+            let duration = myAudio.duration;
+            //修改当前播放时间
+            myAudio.currentTime = this.value / 100 * duration;
+        }
+
+        //设置进度条
+        function setProgress() {
+            let duration = myAudio.duration;
+            const currentTime = myAudio.currentTime;
+            let val = parseInt(currentTime / duration * 100);
+            //设置进度条值
+            slider.value = val;
+            progress.style.width = `${val}%`;
+        }
+
+        // 监听播放进度（仅更新进度条，不处理歌词）
+        myAudio.addEventListener('timeupdate', setProgress);
+    </script>
+    
+</body>
+
+</html>

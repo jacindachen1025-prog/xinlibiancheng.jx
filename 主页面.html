@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多功能界面跳转器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .box i {
+            font-size: 50px;
+            margin-bottom: 20px;
+            color: #4a6fa5;
+        }
+        
+        .box h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .box p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 100;
+            display: none;
+        }
+        
+        .iframe-container.active {
+            display: block;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            padding: 10px 20px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: none;
+        }
+        
+        .back-btn.active {
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>功能选择界面</h1>
+    
+    <div class="container">
+        <div class="box" id="box1">
+            <i class="fas fa-smile"></i>
+            <h2>情绪表情动画</h2>
+            <p>点击进入情绪表情动画界面，体验不同表情的切换效果</p>
+        </div>
+        
+        <div class="box" id="box2">
+            <i class="fas fa-comment-dots"></i>
+            <h2>提示窗口工具</h2>
+            <p>点击运行提示窗口工具，展示多个随机提示窗口</p>
+        </div>
+        
+        <div class="box" id="box3">
+            <i class="fas fa-music"></i>
+            <h2>音乐播放器</h2>
+            <p>点击进入音乐播放器界面，享受音乐播放体验</p>
+        </div>
+    </div>
+    
+    <button class="back-btn" id="backBtn">返回主界面</button>
+    
+    <div class="iframe-container" id="iframeContainer">
+        <iframe id="contentIframe" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const box1 = document.getElementById('box1');
+        const box2 = document.getElementById('box2');
+        const box3 = document.getElementById('box3');
+        const iframeContainer = document.getElementById('iframeContainer');
+        const contentIframe = document.getElementById('contentIframe');
+        const backBtn = document.getElementById('backBtn');
+        
+        // 点击第一个盒子 - 情绪表情动画
+        box1.addEventListener('click', () => {
+            showContent('emoji/web.html');
+        });
+        
+        // 点击第二个盒子 - 提示窗口工具
+        box2.addEventListener('click', () => {
+            // 由于是Python文件，这里展示说明信息
+            alert('此功能是Python程序，点击确定将显示相关信息');
+            showContent('弹窗/2.html');
+        });
+        
+        // 点击第三个盒子 - 音乐播放器
+        box3.addEventListener('click', () => {
+            showContent('music/index.html');
+        });
+        
+        // 返回按钮点击事件
+        backBtn.addEventListener('click', () => {
+            iframeContainer.classList.remove('active');
+            backBtn.classList.remove('active');
+            contentIframe.src = '';
+        });
+        
+        // 显示内容函数
+        function showContent(url) {
+            contentIframe.src = url;
+            iframeContainer.classList.add('active');
+            backBtn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

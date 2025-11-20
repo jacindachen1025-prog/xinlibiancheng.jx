@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>JS 情绪表情动画特效</title>
+<style>
+/*====== 通用 ======*/
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  height:100vh;
+  background:radial-gradient(circle at center,#ffffff,hsl(0, 70%, 83%));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Segoe UI',sans-serif;overflow:hidden;
+}
+
+
+
+#faceEmoji{font-size:300px;transition:all .4s cubic-bezier(.68,-.55,.27,1.55);}
+
+
+/*====== 导航 ======*/
+#nav{position:absolute;bottom:30px;display:flex;gap:15px;list-style:none;}
+#nav li{font-size:2.5rem;cursor:pointer;transition:all .3s ease;filter:grayscale(1);}
+#nav li:hover{transform:scale(1.3) rotateZ(10deg);filter:grayscale(0) drop-shadow(0 0 10px rgba(255,255,255,.7));}
+#nav li.selected{filter:grayscale(0) drop-shadow(0 0 15px #ffea00);}
+</style>
+</head>
+<body>
+
+<div id="cartoon">
+  <div class="hair"></div>
+  <div id="head">
+    <div id="faceEmoji">😀</div>
+  </div>
+  <div class="body"></div>
+  <div class="hand left"></div>
+  <div class="hand right"></div>
+</div>
+
+<ul id="nav">
+  <li class="开心"      data-emoji="😀">开心</li>
+  <li class="惊喜"      data-emoji="😲">惊喜</li>
+  <li class="害怕"      data-emoji="😱">害怕</li>
+  <li class="难过"      data-emoji="😔">难过</li>
+  <li class="沉默"      data-emoji="😶">沉默</li>
+  <li class="不屑"      data-emoji="😤">不屑</li>
+  <li class="尴尬"      data-emoji="😰">尴尬</li>
+  <li class="思考"      data-emoji="🤔">思考</li>
+  <li class="大哭"      data-emoji="😭">大哭</li>
+  <li class="无奈"      data-emoji="😂">无奈</li>  
+  <li class="angry"      data-emoji="😡">生气</li>
+</ul>
+
+<script>
+(()=>{
+  const nav=document.getElementById('nav'),emojiBox=document.getElementById('faceEmoji');
+  nav.querySelector('li:nth-child(1)').classList.add('selected');
+  nav.addEventListener('click',e=>{
+    const li=e.target.closest('li');
+    if(!li)return;
+    nav.querySelectorAll('li').forEach(i=>i.classList.remove('selected'));
+    emojiBox.textContent=li.dataset.emoji;
+    li.classList.add('selected');
+  });
+})();
+</script>
+</body>
+</html>

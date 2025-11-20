@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨提示</title>
+    <style>
+        .tip-box {
+            position: fixed;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: "微软雅黑", sans-serif;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        #inputContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            background-color: white;
+            z-index: 2000;
+        }
+        
+        input, button {
+            font-family: "微软雅黑", sans-serif;
+            font-size: 14px;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="inputContainer" style="display: none;">
+        <p>你想说的话：</p>
+        <input type="text" id="userInput" size="30">
+        <button onclick="sendMessage()">发送</button>
+    </div>
+
+    <script>
+        // 存储所有弹窗元素
+        let allTips = [];
+        
+        // 提示文字列表
+        const tips = [
+            '多喝水哦~', '保持微笑呀', '每天都要元气满满',
+            '记得吃水果', '保持好心情', '好好爱自己', '我想你了',
+            '梦想成真', '期待下一次见面', '金榜题名',
+            '顺顺利利', '早点休息', '愿所有烦恼都消失',
+            '别熬夜', '今天过得开心嘛', '天冷了，多穿衣服'
+        ];
+        
+        // 背景颜色列表
+        const bgColors = [
+            'lightpink', 'skyblue', 'lightgreen', 'lavender',
+            'lightyellow', 'plum', 'coral', 'bisque', 'aquamarine',
+            'mistyrose', 'honeydew', 'lavenderblush', 'oldlace'
+        ];
+        
+        // 创建单个提示弹窗
+        function createTip() {
+            const tipBox = document.createElement('div');
+            tipBox.className = 'tip-box';
+            
+            // 随机内容和样式
+            tipBox.textContent = tips[Math.floor(Math.random() * tips.length)];
+            tipBox.style.backgroundColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+            
+            // 随机位置（确保在屏幕内）
+            const maxX = window.innerWidth - 200;
+            const maxY = window.innerHeight - 100;
+            tipBox.style.left = `${Math.floor(Math.random() * maxX)}px`;
+            tipBox.style.top = `${Math.floor(Math.random() * maxY)}px`;
+            
+            document.body.appendChild(tipBox);
+            allTips.push(tipBox);
+        }
+        
+        // 批量创建提示弹窗
+        function runFirstPart() {
+            for (let i = 0; i < 100; i++) {
+                setTimeout(createTip, i * 100); // 每隔100ms创建一个
+            }
+        }
+        
+        // 显示用户输入窗口
+        function showInputWindow() {
+            document.getElementById('inputContainer').style.display = 'block';
+        }
+        
+        // 发送用户输入内容
+        function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput) {
+                // 隐藏输入窗口
+                document.getElementById('inputContainer').style.display = 'none';
+                
+                // 创建显示用户输入的弹窗
+                const userTip = document.createElement('div');
+                userTip.className = 'tip-box';
+                userTip.textContent = userInput;
+                userTip.style.backgroundColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+                
+                // 居中显示
+                userTip.style.left = '50%';
+                userTip.style.top = '50%';
+                userTip.style.transform = 'translate(-50%, -50%)';
+                userTip.style.padding = '30px';
+                userTip.style.fontSize = '18px';
+                
+                document.body.appendChild(userTip);
+                allTips.push(userTip);
+                
+                // 显示成功提示
+                alert('你的消息已经发送！');
+                
+                // 5秒后关闭所有窗口
+                setTimeout(destroyAllWindows, 5000);
+            } else {
+                alert('请输入内容！');
+            }
+        }
+        
+        // 销毁所有弹窗
+        function destroyAllWindows() {
+            allTips.forEach(tip => {
+                tip.remove();
+            });
+            allTips = [];
+        }
+        
+        // 程序入口
+        runFirstPart();
+        // 18秒后显示输入窗口
+        setTimeout(showInputWindow, 10000);
+    </script>
+</body>
+</html>
